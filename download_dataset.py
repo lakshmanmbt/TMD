@@ -27,27 +27,27 @@ if __name__ == "__main__":
     if not os.path.exists(rawOriginaldata):
         os.makedirs(rawOriginaldata)
 
-    print "DOWNLOAD........"
+    print ("DOWNLOAD........")
     for url in url_list:
         response = urllib2.urlopen(url)
         csv = response.read()
         if url == 'http://cs.unibo.it/projects/us-tm2017/static/dataset/extension/5second/dataset_5secondWindow.csv':
             outfile = datasetBalanced + '/' +dataset5second
-	elif url == 'http://cs.unibo.it/projects/us-tm2017/static/dataset/raw_data/raw_data.tar.gz':
-	    outfile = rawOriginaldata + '/' + rawdataorig
+        elif url == 'http://cs.unibo.it/projects/us-tm2017/static/dataset/raw_data/raw_data.tar.gz':
+            outfile = rawOriginaldata + '/' + rawdataorig
         else:
             outfile = datasetBalanced + '/' + datasethalfsecond
 
         with open(outfile, 'wb') as f:
             f.write(csv)
 
-	if url == "http://cs.unibo.it/projects/us-tm2017/static/dataset/raw_data/raw_data.tar.gz":
-	    tar = tarfile.open(outfile, "r:gz")
-    	    tar.extractall(path="TransportationData/")
-	    tar.close()
-	    for filename in glob.iglob('TransportationData/raw_data/*/*.csv'):
-		shutil.move(filename, rawOriginaldata)
-	    os.remove(outfile)
-	    shutil.rmtree('TransportationData/raw_data/')
+        if url == "http://cs.unibo.it/projects/us-tm2017/static/dataset/raw_data/raw_data.tar.gz":
+            tar = tarfile.open(outfile, "r:gz")
+            tar.extractall(path="TransportationData/")
+            tar.close()
+            for filename in glob.iglob('TransportationData/raw_data/*/*.csv'):
+                shutil.move(filename, rawOriginaldata)
+            os.remove(outfile)
+            shutil.rmtree('TransportationData/raw_data/')
 
-    print "DOWNLOAD ENDED."
+    print ("DOWNLOAD ENDED.")
