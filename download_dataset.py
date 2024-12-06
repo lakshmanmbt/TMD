@@ -1,4 +1,4 @@
-import urllib2
+import urllib3
 import os
 import tarfile
 import shutil
@@ -28,9 +28,12 @@ if __name__ == "__main__":
         os.makedirs(rawOriginaldata)
 
     print ("DOWNLOAD........")
+    
+    http = urllib3.PoolManager()
+    
     for url in url_list:
-        response = urllib2.urlopen(url)
-        csv = response.read()
+        response = http.request('GET', url)
+        csv = response.data
         if url == 'http://cs.unibo.it/projects/us-tm2017/static/dataset/extension/5second/dataset_5secondWindow.csv':
             outfile = datasetBalanced + '/' +dataset5second
         elif url == 'http://cs.unibo.it/projects/us-tm2017/static/dataset/raw_data/raw_data.tar.gz':
